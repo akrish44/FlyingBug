@@ -5,43 +5,51 @@ import info.gridworld.grid.Grid;
 import info.gridworld.grid.Location;
 import java.awt.Color;
 import info.gridworld.actor.Critter;
+import java.util.ArrayList;
 
 public class FlyingBug extends Critter {
  
-  // public Jumper()
-  // {
-  //   setColor(Color.PINK);
-  // }
-  
-  // public Jumper(Color JumperColor)
-  // {
-  //   setColor(JumperColor);
-  // }
   public void act()
   {
+  	// selectMoveLocation();
     if (canJump()) {
       jump();
  } else {
   removeSelfFromGrid();
   }
   }
+
+  // public Location selectMoveLocation(ArrayList<Location> locs) {
+  // 	int n = locs.size();
+  // 	if (n ==0) {
+  // 		return getLocation();
+  // 	}
+  // 	int r = (int) (Math.random()*n);
+
+  // 	return locs.get(r);
+  // }
     
-    public void turn()
-    {
-      setDirection(getDirection() + Location.HALF_RIGHT);
-    }
+   public int getRandomDirection() {
+   	int turns = (int) (Math.random() * 8);
+   return Location.NORTH + turns*Location.HALF_RIGHT;
+
+   }
+    
 
   public void jump()
   {
+  	// ArrayList<Location> locs = new ArrayList<Location>();
     Grid<Actor> gr = getGrid();
     if (gr == null)
       return;
     Location loc = getLocation();
-    Location next = loc.getAdjacentLocation(getDirection());
-    Location twoAway = next.getAdjacentLocation(getDirection());
-    Location threeAway = twoAway.getAdjacentLocation(getDirection());
-    Location fourAway = threeAway.getAdjacentLocation(getDirection());
+    Location next = loc.getAdjacentLocation(getRandomDirection());
+    Location twoAway = next.getAdjacentLocation(getRandomDirection());
+    Location threeAway = twoAway.getAdjacentLocation(getRandomDirection());
+    Location fourAway = threeAway.getAdjacentLocation(getRandomDirection());
     if (gr.isValid(fourAway)) {
+    	// locs.add(fourAway);
+    	// selectMoveLocation(fourAway);
       moveTo(fourAway);
     } else {
       removeSelfFromGrid();
